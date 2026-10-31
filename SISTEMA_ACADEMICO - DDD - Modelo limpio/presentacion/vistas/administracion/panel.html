@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel · Sistema de Examen de Admisión</title>
+  <link rel="stylesheet" href="../recursos/estilos_sistema.css">
+</head>
+<body>
+<header class="app-header">
+  <div class="brand"><div><strong>Sistema de Examen de Admisión</strong></div></div>
+  <div class="user-chip"><div class="user-avatar">●</div><div class="user-name"><b>admin</b></div></div>
+</header>
+<div class="shell">
+  <aside class="sidebar" aria-label="Navegación principal">
+    <div class="menu-label">MENÚ PRINCIPAL</div>
+    <a class="navlink active" href="#inicio"><span class="nav-icon">🏠</span>Inicio</a>
+    <a class="navlink" href="#configuracion"><span class="nav-icon">⚙️</span>Configuración</a>
+    <a class="navlink" href="#respuestas"><span class="nav-icon">✏️</span>Configurar Respuestas</a>
+    <a class="navlink" href="#procesar"><span class="nav-icon">🖼️</span>Procesar Hojas</a>
+    <a class="navlink" href="#resultados"><span class="nav-icon">📊</span>Resultados</a>
+    <a class="navlink" href="#estadisticas"><span class="nav-icon">📈</span>Estadísticas</a>
+    <a class="navlink" href="#estudiantes"><span class="nav-icon">👥</span>Estudiantes</a>
+    <div class="sidebar-bottom"><a class="navlink" href="../comun/inicio_de_sesion.html"><span class="nav-icon">↪</span>Salir</a></div>
+  </aside>
+  <main class="workspace">
+    <section class="ventana default" id="inicio">
+      <div class="welcome"><h1>Bienvenido al Sistema de Examen de Admisión</h1><p>Gestiona exámenes, estudiantes y resultados de manera eficiente.</p></div>
+      <div class="grid dashboard-grid">
+        <article class="dashboard-card"><div class="dashboard-icon">⚙️</div><h2>Configuración de Áreas</h2><p>Define materias, preguntas y puntajes para cada área.</p><a class="btn" href="#configuracion">Configurar</a></article>
+        <article class="dashboard-card"><div class="dashboard-icon">📝</div><h2>Ingreso de Examen</h2><p>Crea exámenes y genera cuadernillos descargables en PDF.</p><a class="btn" href="#respuestas">Crear Examen</a></article>
+        <article class="dashboard-card"><div class="dashboard-icon">🖼️</div><h2>Procesamiento de Hojas</h2><p>Procesa y valida respuestas de hojas de estudiantes.</p><a class="btn" href="#procesar">Procesar</a></article>
+        <article class="dashboard-card"><div class="dashboard-icon">📊</div><h2>Resultados y Estadísticas</h2><p>Visualiza rankings, notas y estadísticas de desempeño.</p><a class="btn" href="#resultados">Ver Resultados</a></article>
+        <article class="dashboard-card"><div class="dashboard-icon">👥</div><h2>Gestión de Estudiantes</h2><p>Administra la información personal e inscripciones de estudiantes.</p><a class="btn" href="#estudiantes">Configurar</a></article>
+      </div>
+      <article class="summary-card"><h2>Resumen del Sistema</h2><div class="grid summary-grid">
+        <div class="summary-item pink"><span>📁</span><strong>5</strong><small>Áreas de Evaluación</small></div>
+        <div class="summary-item gray"><span>📝</span><strong>12</strong><small>Exámenes Creados</small></div>
+        <div class="summary-item pink"><span>📖</span><strong>85</strong><small>Hojas Procesadas</small></div>
+        <div class="summary-item gray"><span>👥</span><strong>150</strong><small>Estudiantes Evaluados</small></div>
+      </div></article>
+    </section>
+
+    <section class="ventana" id="configuracion">
+      <div class="page-heading"><div><div class="eyebrow">Administración académica</div><h1>Configuración de Áreas y Asignaturas</h1><p>Configura materias, ejes temáticos, número de preguntas y valores por área.</p></div><button class="btn">＋ Añadir asignatura</button></div>
+      <div class="tabs"><a class="tab active" href="#configuracion">Ingenierías</a><a class="tab" href="#configuracion">Biomédicas</a><a class="tab" href="#configuracion">Sociales</a><a class="tab" href="#configuracion">Empresariales</a><a class="tab" href="#configuracion">Educación</a></div>
+      <div class="grid stats"><article class="stat"><span class="stat-icon">📚</span><div><small>Asignaturas</small><strong>8</strong></div></article><article class="stat"><span class="stat-icon">❔</span><div><small>Preguntas configuradas</small><strong>100</strong></div></article><article class="stat"><span class="stat-icon">🎯</span><div><small>Puntaje total</small><strong>100</strong></div></article><article class="stat"><span class="stat-icon">🧭</span><div><small>Ejes temáticos</small><strong>6</strong></div></article></div>
+      <article class="card"><div class="row between"><div><h2>Asignaturas de Ingenierías</h2><p class="hint">Valores de referencia para la estructura del examen.</p></div><button class="btn light">↻ Actualizar</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Asignatura</th><th>Eje temático</th><th>Preguntas</th><th>Valor por pregunta</th><th>Puntaje</th><th>Acciones</th></tr></thead><tbody>
+          <tr><td>Matemática</td><td>Álgebra</td><td>20</td><td>1.00</td><td>20.00</td><td><button class="btn light">Editar</button></td></tr><tr><td>Física</td><td>Mecánica</td><td>15</td><td>1.00</td><td>15.00</td><td><button class="btn light">Editar</button></td></tr><tr><td>Química</td><td>Materia y energía</td><td>15</td><td>1.00</td><td>15.00</td><td><button class="btn light">Editar</button></td></tr><tr><td>Comunicación</td><td>Comprensión lectora</td><td>20</td><td>1.00</td><td>20.00</td><td><button class="btn light">Editar</button></td></tr><tr><td>Razonamiento</td><td>Lógico matemático</td><td>30</td><td>1.00</td><td>30.00</td><td><button class="btn light">Editar</button></td></tr>
+        </tbody></table></div><div class="row between" style="margin-top:16px"><span class="badge red">Total del área: 100 preguntas · 100 puntos</span><button class="btn">Guardar cambios</button></div>
+      </article>
+    </section>
+
+    <section class="ventana" id="respuestas">
+      <div class="page-heading"><div><div class="eyebrow">Diseño de evaluación</div><h1>Configurar Respuestas</h1><p>Administra versiones del examen y claves correctas por asignatura.</p></div><button class="btn">＋ Nueva versión</button></div>
+      <div class="grid" style="grid-template-columns:minmax(230px,.8fr) minmax(0,2fr)">
+        <article class="card"><h2>Gestión de versiones</h2><label class="field">Área<select><option>Ingenierías</option><option>Biomédicas</option><option>Sociales</option></select></label><div class="tabs" style="display:grid"><a class="tab active" href="#respuestas">● V1.0 · Examen regular</a><a class="tab" href="#respuestas">V2.0 · Reprogramación</a></div><button class="btn light" style="width:100%">📂 Cargar versión guardada</button><p class="hint">Los cambios se asociarán a la versión seleccionada.</p></article>
+        <article class="card"><div class="row between"><div><h2>Clave de respuestas · V1.0</h2><p class="hint">Ingenierías · Selecciona una asignatura para editar su clave.</p></div><button class="btn light">⬇ Exportar Excel</button></div><div class="tabs"><a class="tab active" href="#respuestas">Matemática · 20</a><a class="tab" href="#respuestas">Física · 15</a><a class="tab" href="#respuestas">Química · 15</a><a class="tab" href="#respuestas">Comunicación · 20</a></div><div class="notice">Asignatura seleccionada: <b>Matemática</b> · 20 preguntas · 4 alternativas</div>
+          <div class="table-wrap"><table><thead><tr><th>N°</th><th>Respuesta correcta</th><th>Valor</th><th>Estado</th></tr></thead><tbody><tr><td>Pregunta 01</td><td><select class="control"><option>A</option><option>B</option><option>C</option><option>D</option></select></td><td>1.00</td><td><span class="badge ok">Configurada</span></td></tr><tr><td>Pregunta 02</td><td><select class="control"><option>B</option><option>A</option><option>C</option><option>D</option></select></td><td>1.00</td><td><span class="badge ok">Configurada</span></td></tr><tr><td>Pregunta 03</td><td><select class="control"><option>C</option><option>A</option><option>B</option><option>D</option></select></td><td>1.00</td><td><span class="badge ok">Configurada</span></td></tr><tr><td>Pregunta 04</td><td><select class="control"><option>Seleccionar</option><option>A</option><option>B</option><option>C</option><option>D</option></select></td><td>1.00</td><td><span class="badge warn">Pendiente</span></td></tr></tbody></table></div><div class="row between" style="margin-top:16px"><span class="hint">Vista previa de la clave de respuestas</span><button class="btn">Guardar clave</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="ventana" id="procesar">
+      <div class="page-heading"><div><div class="eyebrow">Lectura y calificación</div><h1>Procesador de Hojas de Respuesta</h1><p>Sistema de corrección automática · Carga, valida y registra resultados.</p></div><span class="badge ok">● Listo para procesar</span></div>
+      <article class="card"><h2>Flujo de procesamiento</h2><div class="steps"><div class="step"><b><i>1</i> Carga de archivos</b><p>Selecciona las imágenes o archivos de cartillas.</p></div><div class="step"><b><i>2</i> Configuración</b><p>Asocia área, examen y versión de respuestas.</p></div><div class="step"><b><i>3</i> Procesamiento</b><p>Lee las marcas y prepara los resultados.</p></div></div>
+        <div class="form-grid"><label class="field">Revisión / Examen<select><option>Seleccionar examen</option><option>Simulacro 01 · V1.0</option><option>Examen regular · V1.0</option></select></label><label class="field">Área<select><option>Ingenierías</option><option>Biomédicas</option><option>Sociales</option></select></label><label class="field">Versión de respuestas<select><option>V1.0</option><option>V2.0</option></select></label></div>
+        <label class="dropzone"><span style="font-size:32px">☁️</span><strong>Arrastra aquí las hojas de respuesta</strong><span>o selecciona archivos desde tu dispositivo</span><br><input type="file" multiple accept="image/*,.pdf" style="margin-top:14px"></label>
+        <div class="row between" style="margin-top:17px"><span class="hint">Archivos seleccionados: 0</span><div class="row"><button class="btn light">Limpiar</button><button class="btn">Procesar imágenes</button></div></div>
+      </article>
+      <article class="card" style="margin-top:18px"><div class="row between"><div><h2>Hojas procesadas</h2><p class="hint">Las lecturas detectadas aparecerán en esta lista para revisión.</p></div><button class="btn light">Guardar resultados</button></div><div class="empty">📄<br><b>Aún no hay hojas en esta sesión</b><br>Cuando cargues archivos, podrás revisar su lectura aquí.</div></article>
+    </section>
+
+    <section class="ventana" id="resultados">
+      <div class="page-heading"><div><div class="eyebrow">Desempeño académico</div><h1>Resultados · Ranking</h1><p>Ranking y estadísticas de desempeño por revisión.</p></div><button class="btn light">⬇ Exportar Excel</button></div>
+      <article class="card"><div class="form-grid"><label class="field">Revisión<select><option>Todas las revisiones</option><option>Simulacro 01</option></select></label><label class="field">Tipo de ranking<select><option>General</option><option>Por área</option></select></label><label class="field">Área<select><option>Todas las áreas</option><option>Ingenierías</option><option>Biomédicas</option></select></label></div><div class="row"><label class="field" style="flex:1;min-width:200px">Buscar estudiante<input placeholder="Nombre o código"></label><button class="btn" style="margin-bottom:14px">Buscar</button></div></article>
+      <article class="card" style="margin-top:18px"><div class="row between"><div><h2>Ranking general</h2><p class="hint">Datos de ejemplo para mostrar la vista.</p></div><span class="badge">3 estudiantes</span></div><div class="table-wrap"><table><thead><tr><th>Pos.</th><th>Estudiante</th><th>Área</th><th>Puntaje</th><th>Aciertos</th><th>Errores</th><th>Total</th><th>% Acierto</th><th>Detalle</th></tr></thead><tbody><tr><td><b>🥇 1</b></td><td>Andrea Quispe · 2026001</td><td>Ingenierías</td><td><b>91.5</b></td><td>92</td><td>8</td><td>100</td><td>92%</td><td><button class="btn light">Ver detalle</button></td></tr><tr><td><b>🥈 2</b></td><td>Diego Salas · 2026002</td><td>Biomédicas</td><td><b>86.0</b></td><td>86</td><td>14</td><td>100</td><td>86%</td><td><button class="btn light">Ver detalle</button></td></tr><tr><td><b>🥉 3</b></td><td>Lucía Torres · 2026003</td><td>Sociales</td><td><b>80.0</b></td><td>80</td><td>20</td><td>100</td><td>80%</td><td><button class="btn light">Ver detalle</button></td></tr></tbody></table></div></article>
+    </section>
+
+    <section class="ventana" id="estadisticas">
+      <div class="page-heading"><div><div class="eyebrow">Análisis de resultados</div><h1>Estadísticas</h1><p>Explora los indicadores generales y el rendimiento académico.</p></div></div>
+      <article class="card"><h2>Estadísticas por categoría</h2><p class="hint">Selecciona una categoría para consultar su reporte detallado.</p><div class="grid module-grid"><a class="module" href="#estadisticas"><span class="stat-icon">🌐</span><h3>Estadísticas generales</h3><p>Resumen global de exámenes, participantes y puntajes.</p><span>Ver estadísticas →</span></a><a class="module" href="#estadisticas"><span class="stat-icon">🧭</span><h3>Estadísticas por área</h3><p>Compara el rendimiento entre áreas académicas.</p><span>Ver estadísticas →</span></a><a class="module" href="#estadisticas"><span class="stat-icon">📚</span><h3>Estadísticas por materia</h3><p>Consulta aciertos y resultados por asignatura.</p><span>Ver estadísticas →</span></a><a class="module" href="#estadisticas"><span class="stat-icon">👤</span><h3>Estadísticas del estudiante</h3><p>Busca la evolución individual de un estudiante.</p><span>Ver estadísticas →</span></a></div></article>
+      <article class="card" style="margin-top:18px"><div class="row between"><div><h2>Rendimiento general</h2><p class="hint">Porcentaje promedio de respuestas correctas por área.</p></div><select class="control" style="width:auto"><option>Última revisión</option><option>Todas las revisiones</option></select></div><div class="chart"><div class="bar-col"><span>78%</span><i style="height:78%"></i><span class="chart-label">Ingenierías</span></div><div class="bar-col"><span>84%</span><i style="height:84%"></i><span class="chart-label">Biomédicas</span></div><div class="bar-col"><span>71%</span><i style="height:71%"></i><span class="chart-label">Sociales</span></div><div class="bar-col"><span>69%</span><i style="height:69%"></i><span class="chart-label">Empresariales</span></div><div class="bar-col"><span>82%</span><i style="height:82%"></i><span class="chart-label">Educación</span></div></div></article>
+    </section>
+
+    <section class="ventana" id="estudiantes">
+      <div class="page-heading"><div><div class="eyebrow">Registro académico</div><h1>Gestión de Estudiantes</h1><p>Administra la información de los estudiantes registrados en el sistema.</p></div><button class="btn">＋ Registrar estudiante</button></div>
+      <div class="grid stats"><article class="stat"><span class="stat-icon">👥</span><div><small>Total estudiantes</small><strong>150</strong></div></article><article class="stat"><span class="stat-icon">🧭</span><div><small>Áreas diferentes</small><strong>5</strong></div></article><article class="stat"><span class="stat-icon">🏅</span><div><small>Área con más estudiantes</small><strong style="font-size:17px">Ingenierías</strong></div></article><article class="stat"><span class="stat-icon">✅</span><div><small>Inscritos activos</small><strong>142</strong></div></article></div>
+      <article class="card"><div class="tabs"><a class="tab" href="#estudiantes">Resumen</a><a class="tab" href="#estudiantes">Registro</a><a class="tab" href="#estudiantes">Búsqueda</a><a class="tab active" href="#estudiantes">Lista completa</a></div><div class="row"><label class="field" style="flex:1;min-width:220px">Buscar estudiante<input placeholder="Nombre, código o DNI"></label><label class="field" style="min-width:190px">Área<select><option>Todas las áreas</option><option>Ingenierías</option><option>Biomédicas</option></select></label><button class="btn" style="margin:0 0 14px">Buscar</button></div><div class="table-wrap"><table><thead><tr><th>Código</th><th>Nombres</th><th>Apellidos</th><th>Área</th><th>Carrera</th><th>Estado</th><th>Acciones</th></tr></thead><tbody><tr><td>2026001</td><td>Andrea</td><td>Quispe Ramos</td><td>Ingenierías</td><td>Ingeniería de Sistemas</td><td><span class="badge ok">Activo</span></td><td><button class="btn light">Editar</button></td></tr><tr><td>2026002</td><td>Diego</td><td>Salas Medina</td><td>Biomédicas</td><td>Medicina</td><td><span class="badge ok">Activo</span></td><td><button class="btn light">Editar</button></td></tr><tr><td>2026003</td><td>Lucía</td><td>Torres Vega</td><td>Sociales</td><td>Derecho</td><td><span class="badge warn">Pendiente</span></td><td><button class="btn light">Editar</button></td></tr><tr><td>2026004</td><td>Mateo</td><td>Rojas Díaz</td><td>Ingenierías</td><td>Ingeniería Civil</td><td><span class="badge ok">Activo</span></td><td><button class="btn light">Editar</button></td></tr></tbody></table></div><div class="row between" style="margin-top:15px"><span class="hint">Mostrando 1–4 de 150 estudiantes</span><div class="row"><button class="btn light">‹ Anterior</button><span class="badge red">1</span><button class="btn light">Siguiente ›</button></div></div></article>
+    </section>
+    <p class="footer-note">Prototipo de ventanas · Los datos y controles se conectarán con los casos de uso de la aplicación.</p>
+    <div class="prototype-links"><a href="../index.html">Volver al índice de vistas</a></div>
+  </main>
+</div>
+</body>
+</html>

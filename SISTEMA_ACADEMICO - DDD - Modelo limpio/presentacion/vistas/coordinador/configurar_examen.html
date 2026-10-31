@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurar examen — Sistema académico</title>
+<link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+<nav class="navegacion-vistas" aria-label="Navegación de vistas"><a href="../index.html">Todas las vistas</a><a href="index.html">Índice del perfil</a><a href="../coordinador/banco_de_preguntas.html">Anterior</a><a href="../coordinador/revision_de_clave_de_respuestas.html">Siguiente</a></nav>
+<p class="aviso-prototipo">Prototipo de vista · Datos de ejemplo. Las acciones requieren conexión con los controladores.</p>
+<main><section id="pantalla-09" class="pantalla" aria-labelledby="titulo-09">
+      <h3 id="titulo-09">08. Configurar examen</h3>
+      <div class="vista fuente-3">
+        <div class="w formato-016">
+          <div class="bar">
+            <span>
+              Configurar examen
+            </span>
+            <span>
+              Coordinador
+            </span>
+          </div>
+          <div class="formato-014">
+            <div class="formato-017">
+              <label>
+                Nombre del examen
+                <br>
+                <input class="in formato-018" type="text">
+              </label>
+              <label>
+                Simulacro
+                <br>
+                <select class="in">
+                  <option>
+                    Seleccionar
+                  </option>
+                </select>
+              </label>
+              <label>
+                Área
+                <br>
+                <select class="in">
+                  <option>
+                    Seleccionar
+                  </option>
+                </select>
+              </label>
+              <label>
+                Fecha
+                <br>
+                <input class="in formato-010" type="text">
+              </label>
+            </div>
+            <table>
+              <tr>
+                <th>
+                  Orden
+                </th>
+                <th>
+                  Eje temático
+                </th>
+                <th>
+                  Materia
+                </th>
+                <th>
+                  N.º de preguntas
+                </th>
+                <th>
+                  Puntaje por pregunta
+                </th>
+                <th>
+                  Puntaje de la materia
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  1
+                </td>
+                <td>
+                  [Eje 1]
+                </td>
+                <td>
+                  [Materia]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  2
+                </td>
+                <td>
+                  [Eje 1]
+                </td>
+                <td>
+                  [Materia]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+              </tr>
+              <tr>
+                <th></th>
+                <th>
+                  Subtotal eje: [ ]%
+                </th>
+                <th></th>
+                <th>
+                  [ ]
+                </th>
+                <th></th>
+                <th>
+                  [ ]
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  3
+                </td>
+                <td>
+                  [Eje 2]
+                </td>
+                <td>
+                  [Materia]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  4
+                </td>
+                <td>
+                  [Eje 2]
+                </td>
+                <td>
+                  [Materia]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+                <td>
+                  [ ]
+                </td>
+              </tr>
+              <tr>
+                <th></th>
+                <th>
+                  Subtotal eje: [ ]%
+                </th>
+                <th></th>
+                <th>
+                  [ ]
+                </th>
+                <th></th>
+                <th>
+                  [ ]
+                </th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  [demás ejes y materias]
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th></th>
+                <th>
+                  Total (100%)
+                </th>
+                <th></th>
+                <th>
+                  [ ]
+                </th>
+                <th></th>
+                <th>
+                  100
+                </th>
+              </tr>
+            </table>
+            <div>
+              El puntaje por pregunta puede variar por área. No se redondea. El puntaje de materia es cantidad por puntaje unitario; los pesos se validan por eje.
+            </div>
+            <div>
+              A y B contienen las mismas preguntas y alternativas: solo cambia el orden de las preguntas.
+            </div>
+            <div class="formato-019">
+              <label>
+                <input type="checkbox">
+                Versión A
+              </label>
+              <label>
+                <input type="checkbox">
+                Versión B
+              </label>
+              <label>
+                <input type="checkbox">
+                Penalizar respuesta incorrecta (opcional; por defecto 0; total mínimo 0)
+              </label>
+            </div>
+            <div class="formato-017">
+              <button class="bt" type="button">
+                Guardar borrador
+              </button>
+              <button class="bt" type="button">
+                Generar versiones y claves
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </section></main>
+</body>
+</html>

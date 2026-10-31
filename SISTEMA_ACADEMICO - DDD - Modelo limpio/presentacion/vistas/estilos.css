@@ -1,0 +1,196 @@
+
+/* Estructura del documento único. */
+html {scroll-behavior:smooth}
+body {margin:0;background:#f3f3f3;color:#222;font-family:Verdana,Geneva,sans-serif;font-size:14px}
+* {box-sizing:border-box}
+.cabecera, .indice, main {max-width:1120px;margin:0 auto;padding:24px}
+.cabecera {padding-bottom:0}
+.cabecera h1 {font-size:26px;margin:0 0 12px}
+.cabecera p {line-height:1.6}
+.indice ol {display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;list-style:none;padding:0}
+.indice a {display:block;padding:12px;background:#fff;border:1px solid #bbb;color:#222;text-decoration:none;line-height:1.5}
+.indice a:hover, .indice a:focus {background:#e5e5e5}
+.pantalla {margin-bottom:48px;scroll-margin-top:16px}
+.pantalla h3 {font-size:18px;margin:0 0 16px;line-height:1.5}
+.selector-rol {position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.roles {display:flex;flex-wrap:wrap;gap:10px;border-bottom:1px solid #bbb;padding-bottom:20px}
+.roles label {cursor:pointer;padding:14px 18px;background:white;border:1px solid #999;font-weight:bold}
+.grupo-rol {display:none;padding-top:20px}
+.grupo-rol > h2 {font-size:24px}
+.grupo-rol > .indice {padding:12px 0 24px}
+.vista {padding:16px;overflow:auto;border:1px solid #ccc;background:#eaeaea}
+.volver {display:inline-block;margin-top:12px;color:#333}
+@media (max-width:600px) {.cabecera,.indice,main {padding:16px}.cabecera h1 {font-size:22px}}
+@media print {.indice,.volver {display:none}.pantalla {break-before:page}.vista {overflow:visible;border:0;padding:0}body {background:white}}
+#vista-comun:checked ~ .contenido-roles #grupo-comun {display:block}
+#vista-comun:checked ~ .roles label[for="vista-comun"] {background:#333;color:white;border-color:#333}
+#vista-comun:focus-visible ~ .roles label[for="vista-comun"] {outline:3px solid #225da8;outline-offset:3px}
+#vista-coordinador:checked ~ .contenido-roles #grupo-coordinador {display:block}
+#vista-coordinador:checked ~ .roles label[for="vista-coordinador"] {background:#333;color:white;border-color:#333}
+#vista-coordinador:focus-visible ~ .roles label[for="vista-coordinador"] {outline:3px solid #225da8;outline-offset:3px}
+#vista-estudiante:checked ~ .contenido-roles #grupo-estudiante {display:block}
+#vista-estudiante:checked ~ .roles label[for="vista-estudiante"] {background:#333;color:white;border-color:#333}
+#vista-estudiante:focus-visible ~ .roles label[for="vista-estudiante"] {outline:3px solid #225da8;outline-offset:3px}
+#vista-docente:checked ~ .contenido-roles #grupo-docente {display:block}
+#vista-docente:checked ~ .roles label[for="vista-docente"] {background:#333;color:white;border-color:#333}
+#vista-docente:focus-visible ~ .roles label[for="vista-docente"] {outline:3px solid #225da8;outline-offset:3px}
+#vista-director:checked ~ .contenido-roles #grupo-director {display:block}
+#vista-director:checked ~ .roles label[for="vista-director"] {background:#333;color:white;border-color:#333}
+#vista-director:focus-visible ~ .roles label[for="vista-director"] {outline:3px solid #225da8;outline-offset:3px}
+@media print {.roles,.selector-rol {display:none}.contenido-roles .grupo-rol {display:block!important}}
+
+/* Estilos de las pantallas del grupo 1. */
+.fuente-1 {margin:0}.fuente-1 * {box-sizing:border-box}.fuente-1 .w {font-family:Verdana,Geneva,sans-serif;font-size:14px;color:#222;background:#fff}.fuente-1 .bar {background:#ddd;border-bottom:1px solid #888;padding:14px 20px;font-weight:bold}.fuente-1 .in {display:block;width:100%;height:44px;border:1px solid #888;padding:0 10px;font:inherit;background:#fff}.fuente-1 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 18px}.fuente-1 a {color:#444}
+
+/* Estilos de las pantallas del grupo 2. */
+.fuente-2 {margin:0}.fuente-2 * {box-sizing:border-box}.fuente-2 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-2 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-2 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-2 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-2 table {border-collapse:collapse;width:100%}.fuente-2 th, .fuente-2 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-2 th {background:#eee}
+
+/* Estilos de las pantallas del grupo 3. */
+.fuente-3 {margin:0}.fuente-3 * {box-sizing:border-box}.fuente-3 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-3 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-3 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-3 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-3 table {border-collapse:collapse;width:100%}.fuente-3 th, .fuente-3 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-3 th {background:#eee}
+
+/* Estilos de las pantallas del grupo 4. */
+.fuente-4 {margin:0}.fuente-4 * {box-sizing:border-box}.fuente-4 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-4 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-4 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-4 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-4 table {border-collapse:collapse;width:100%}.fuente-4 th, .fuente-4 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-4 th {background:#eee}
+
+/* Estilos de las pantallas del grupo 5. */
+.fuente-5 {margin:0}.fuente-5 * {box-sizing:border-box}.fuente-5 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-5 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 16px;font-weight:bold}.fuente-5 .bx {border:1px solid #888;padding:10px}.fuente-5 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 10px}.fuente-5 .bar2 {height:14px;border:1px solid #888;background:#fff}.fuente-5 .bar2 i {display:block;height:100%;background:#999}
+
+/* Estilos de las pantallas del grupo 6. */
+.fuente-6 {margin:0}.fuente-6 * {box-sizing:border-box}.fuente-6 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-6 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-6 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-6 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}
+
+/* Estilos de las pantallas del grupo 7. */
+.fuente-7 {margin:0}.fuente-7 * {box-sizing:border-box}.fuente-7 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-7 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-7 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-7 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-7 table {border-collapse:collapse;width:100%}.fuente-7 th, .fuente-7 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-7 th {background:#eee}
+
+/* Estilos de las pantallas del grupo 8. */
+.fuente-8 {margin:0}.fuente-8 * {box-sizing:border-box}.fuente-8 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-8 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-8 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-8 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-8 table {border-collapse:collapse;width:100%}.fuente-8 th, .fuente-8 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-8 th {background:#eee}
+
+/* Estilos de las pantallas del grupo 9. */
+.fuente-9 {margin:0}.fuente-9 * {box-sizing:border-box}.fuente-9 .w {font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222;background:#fff}.fuente-9 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 16px;font-weight:bold}.fuente-9 .bx {border:1px solid #888;padding:10px}.fuente-9 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff;width:100%}.fuente-9 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 10px}
+
+/* Estilos de las pantallas del grupo 10. */
+.fuente-10 * {box-sizing:border-box}.fuente-10 {margin:0;background:#f3f3f3;font-family:Verdana,Geneva,sans-serif;font-size:13px;color:#222}.fuente-10 h1 {font-size:16px;margin:16px}.fuente-10 .g {display:flex;flex-wrap:wrap;gap:24px;padding:0 16px 24px;align-items:flex-start}.fuente-10 .c small {display:block;margin-bottom:6px;color:#555}.fuente-10 .w {background:#fff;border:1px solid #888;display:flex;flex-direction:column}.fuente-10 .d {width:720px}.fuente-10 .m {width:360px;min-height:620px}.fuente-10 .bar {background:#ddd;border-bottom:1px solid #888;padding:12px 18px;font-weight:bold;display:flex;justify-content:space-between}.fuente-10 .p {padding:16px;display:flex;flex-direction:column;gap:12px;flex:1}.fuente-10 .r {display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.fuente-10 .in {height:44px;border:1px solid #888;padding:0 8px;font:inherit;background:#fff}.fuente-10 .bt {height:44px;border:1px solid #444;background:#ccc;font:inherit;font-weight:bold;padding:0 14px}.fuente-10 .bx {border:1px solid #888;padding:10px}.fuente-10 table {border-collapse:collapse;width:100%}.fuente-10 th, .fuente-10 td {border:1px solid #888;padding:6px 8px;text-align:left}.fuente-10 th {background:#eee}.fuente-10 .bars {display:flex;gap:10px;align-items:flex-end;height:130px;border-bottom:1px solid #888;padding:0 8px}.fuente-10 .bars div {flex:1;background:#bbb;text-align:center;padding-top:4px}.fuente-10 .tabs {display:flex;border-top:1px solid #888}.fuente-10 .tabs span {flex:1;padding:12px 0;text-align:center;border-right:1px solid #888}.fuente-10 .tabs .on {background:#ddd;font-weight:bold}.fuente-10 .k {display:flex;gap:12px}.fuente-10 .k .bx {flex:1;text-align:center}.fuente-10 .note {border:1px dashed #888;padding:8px;background:#fafafa}.fuente-10 .sb {width:170px;border-right:1px solid #888;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f5f5f5}.fuente-10 .sb span {padding:8px;border:1px solid #bbb;background:#fff}.fuente-10 .sb .on {background:#ddd;font-weight:bold}.fuente-10 .tab {display:flex;gap:8px}.fuente-10 .tab span {padding:8px 14px;border:1px solid #888;background:#eee}.fuente-10 .tab .on {background:#ccc;font-weight:bold}
+
+/* Formatos trasladados de los atributos style al CSS. */
+.formato-001 {width:720px;min-height:440px;display:flex;flex-direction:column}
+.formato-002 {flex:1;display:flex;align-items:center;justify-content:center}
+.formato-003 {width:340px;display:flex;flex-direction:column;gap:14px;border:1px solid #888;padding:24px}
+.formato-004 {font-size:18px;font-weight:bold}
+.formato-005 {border:1px dashed #888;padding:8px;font-size:12px}
+.formato-006 {min-height:440px;flex-direction:row}
+.formato-007 {flex:1;display:flex;flex-direction:column}
+.formato-008 {min-height:520px}
+.formato-009 {width:110px}
+.formato-010 {width:130px}
+.formato-011 {min-height:500px}
+.formato-012 {min-height:420px}
+.formato-013 {width:720px;min-height:460px}
+.formato-014 {padding:16px;display:flex;flex-direction:column;gap:14px}
+.formato-015 {display:flex;gap:12px;align-items:flex-end}
+.formato-016 {width:720px;min-height:640px}
+.formato-017 {display:flex;gap:12px}
+.formato-018 {width:260px}
+.formato-019 {display:flex;gap:24px}
+.formato-020 {min-height:460px}
+.formato-021 {width:720px;min-height:520px}
+.formato-022 {display:flex;gap:16px}
+.formato-023 {width:220px;height:150px;border:1px dashed #888;display:flex;align-items:center;justify-content:center;text-align:center}
+.formato-024 {display:flex;flex-direction:column;gap:8px;flex:1}
+.formato-025 {width:100%}
+.formato-026 {width:720px;min-height:500px}
+.formato-027 {width:220px;height:130px;border:1px dashed #888;display:flex;align-items:center;justify-content:center;text-align:center}
+.formato-028 {display:flex;flex-direction:column;gap:6px}
+.formato-029 {width:720px;min-height:580px}
+.formato-030 {display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.formato-031 {display:flex;gap:16px;align-items:center}
+.formato-032 {width:320px;min-height:620px;display:flex;flex-direction:column}
+.formato-033 {flex:1;padding:14px;display:flex;flex-direction:column;gap:12px}
+.formato-034 {text-align:center}
+.formato-035 {font-size:28px;font-weight:bold}
+.formato-036 {display:flex;flex-direction:column;gap:8px}
+.formato-037 {width:70%}
+.formato-038 {width:50%}
+.formato-039 {width:85%}
+.formato-040 {display:flex;border-top:1px solid #888}
+.formato-041 {flex:1;border-width:0 1px 0 0}
+.formato-042 {flex:1;border-width:0}
+.formato-043 {width:360px;min-height:620px;display:flex;flex-direction:column}
+.formato-044 {flex:1;padding:14px;display:flex;flex-direction:column;gap:10px}
+.formato-045 {padding:14px}
+.formato-046 {height:45%}
+.formato-047 {height:60%}
+.formato-048 {height:80%}
+.formato-049 {display:flex;gap:10px;padding:0 8px}
+.formato-050 {flex:1;text-align:center}
+.formato-051 {width:720px;min-height:880px}
+.formato-052 {padding:16px;display:flex;flex-direction:column;gap:12px}
+.formato-053 {width:100%;height:80px;border:1px solid #888;font:inherit}
+.formato-054 {display:flex;gap:8px;align-items:center}
+.formato-055 {border:1px dashed #888;padding:8px}
+.formato-056 {flex:1}
+.formato-057 {min-height:880px}
+.formato-058 {width:100%;height:70px;border:1px solid #888;font:inherit}
+.formato-059 {align-items:center}
+  
+.navegacion-vistas{display:flex;flex-wrap:wrap;gap:16px;padding:16px;background:white;border-bottom:1px solid #bbb}.navegacion-vistas a{color:#225da8}.aviso-prototipo{padding:12px 24px;background:#fff4d6;margin:0}.navegacion-vistas a:focus-visible{outline:3px solid #225da8}
+
+/* Identidad visual del Sistema de Examen de Admisión (referencia Flet). */
+:root {color-scheme:light;--rojo:#e5232e;--rojo-oscuro:#bd1721;--rojo-suave:#fff0f1;--tinta:#20232a;--muted:#68707d;--borde:#e4e7ec;--fondo:#f5f6f8;--superficie:#fff;--sombra:0 8px 24px rgba(24,32,48,.07)}
+body {background:var(--fondo);color:var(--tinta);font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.5}
+main {max-width:1280px;padding:32px}
+body > main > h1 {font-size:30px;letter-spacing:-.04em;margin:8px 0;color:var(--tinta)}
+body > main > p {color:var(--muted);margin:0 0 22px}
+body > main > section {background:var(--superficie);border:1px solid var(--borde);border-radius:16px;padding:22px 24px;margin:18px 0;box-shadow:var(--sombra)}
+body > main > section > h2 {margin:0;font-size:19px}
+body > main > section > h2 a {color:var(--tinta);text-decoration:none}
+body > main > section > h2 a:hover {color:var(--rojo)}
+.cabecera {max-width:1280px;padding:36px 32px 8px}
+.cabecera h1 {font-size:32px;letter-spacing:-.04em;color:var(--tinta)}
+.cabecera p {color:var(--muted);max-width:780px}
+.indice {max-width:none;padding:12px 0 0}
+.indice ol {grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.indice a {height:100%;border:1px solid var(--borde);border-radius:10px;color:var(--tinta);background:#fff;padding:13px 15px;transition:background .16s,border-color .16s,transform .16s}
+.indice a:hover,.indice a:focus {background:var(--rojo-suave);border-color:#f2a7ac;color:var(--rojo-oscuro);transform:translateY(-1px)}
+.navegacion-vistas {position:sticky;top:0;z-index:5;gap:10px;padding:12px max(24px,calc((100vw - 1220px)/2));background:rgba(255,255,255,.96);border-bottom:1px solid var(--borde);box-shadow:0 2px 10px rgba(20,26,38,.04);backdrop-filter:blur(10px)}
+.navegacion-vistas a {display:inline-flex;align-items:center;min-height:38px;padding:7px 12px;border-radius:8px;color:var(--tinta);text-decoration:none;font-size:14px;font-weight:600}
+.navegacion-vistas a:hover {background:var(--rojo-suave);color:var(--rojo-oscuro)}
+.aviso-prototipo {padding:10px 32px;background:#fff8e7;border-bottom:1px solid #f2dfb0;color:#72551a;font-size:13px}
+.pantalla {margin-bottom:28px;scroll-margin-top:76px}
+.pantalla h3 {font-size:20px;letter-spacing:-.02em;color:var(--tinta);margin:0 0 14px}
+.vista {padding:16px;border:1px solid var(--borde);border-radius:14px;background:#eef0f3;overflow:auto}
+.vista .w {border:1px solid var(--borde);border-radius:12px;overflow:hidden;box-shadow:var(--sombra);color:var(--tinta);background:#fff;font-family:Inter,"Segoe UI",Arial,sans-serif}
+.vista .bar {background:#fff;color:var(--tinta);border-bottom:1px solid var(--borde);padding:16px 20px;font-size:15px}
+.vista .sb {background:#fff;border-right:1px solid var(--borde);padding:14px 12px;gap:7px}
+.vista .sb span {border:0;border-radius:8px;background:transparent;color:#505866;padding:10px 12px}
+.vista .sb span.on,.vista .sb span:hover {background:var(--rojo-suave);color:var(--rojo-oscuro)}
+.vista .p,.vista .formato-033,.vista .formato-044,.vista .formato-052 {padding:20px;gap:16px}
+.vista .bx,.vista .note {border:1px solid var(--borde);border-radius:10px;background:#fff;padding:14px}
+.vista .note {border-style:solid;background:#f8f9fb;color:var(--muted)}
+.vista .in,.vista select.in,.vista textarea.in {border:1px solid #d6dbe3;border-radius:8px;background:#fff;color:var(--tinta);padding:0 11px;min-height:40px;max-width:100%;font:inherit}
+.vista textarea.in {padding:10px;min-height:70px}
+.vista .in:focus {outline:3px solid rgba(229,35,46,.16);border-color:var(--rojo)}
+.vista .bt {border:1px solid var(--rojo);border-radius:8px;background:var(--rojo);color:#fff;min-height:40px;padding:0 16px;font:inherit;font-weight:700;cursor:pointer}
+.vista .bt:hover {background:var(--rojo-oscuro);border-color:var(--rojo-oscuro)}
+.vista table {border-collapse:separate;border-spacing:0;border:1px solid var(--borde);border-radius:9px;overflow:hidden;background:#fff}
+.vista th,.vista td {border:0;border-bottom:1px solid var(--borde);padding:10px 12px}
+.vista th {background:#f7f8fa;color:#4e5663;font-weight:700}
+.vista tr:last-child td {border-bottom:0}
+.vista .tab {border-bottom:1px solid var(--borde);gap:5px;flex-wrap:wrap}
+.vista .tab span {border:0;border-radius:8px 8px 0 0;background:transparent;color:var(--muted)}
+.vista .tab span.on {background:var(--rojo-suave);color:var(--rojo-oscuro)}
+.vista .bars div {background:linear-gradient(180deg,#f45b64,var(--rojo));border-radius:6px 6px 0 0;color:#fff}
+.volver {color:var(--rojo-oscuro);font-weight:600;text-decoration:none}
+.volver:hover {text-decoration:underline}
+@media (max-width:700px) {
+  main {padding:20px 14px}
+  .cabecera {padding:24px 18px 6px}
+  .cabecera h1,body > main > h1 {font-size:25px}
+  body > main > section {padding:17px;margin:12px 0}
+  .navegacion-vistas {position:static;padding:10px 12px;gap:4px}
+  .navegacion-vistas a {font-size:13px;padding:6px 8px}
+  .aviso-prototipo {padding:10px 16px}
+  .vista {padding:8px}
+  .vista .w,.vista .w.d,.vista .w.m {width:100%;min-width:0}
+  .vista .sb {width:130px;flex:0 0 130px}
+  .vista .k,.vista .r,.vista .g,.vista .formato-019 {flex-wrap:wrap}
+  .vista table {min-width:620px}
+}
+@media print {body{background:#fff}.navegacion-vistas{display:none}.vista{background:#fff}.vista .w{box-shadow:none}}
