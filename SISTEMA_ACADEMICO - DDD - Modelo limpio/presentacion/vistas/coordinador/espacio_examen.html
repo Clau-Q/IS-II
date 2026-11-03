@@ -1,0 +1,25 @@
+{% extends 'comun/base.html' %}
+{% block titulo %}{{ contexto_examen.nombre }} · {{ contexto_examen.area }}{% endblock %}
+{% block contenido %}
+<section class="card next-step">
+  <div><h1>Trabajo del examen</h1>
+    <p>{% if contexto_examen.estado in ['BORRADOR','CONFIGURACION'] and contexto_examen.admite_preguntas and contexto_examen.estado_aplicacion == 'ABIERTO' %}Recibiendo preguntas de docentes{% elif resumen.publicado %}Resultados publicados{% elif contexto_examen.estado in ['BORRADOR','CONFIGURACION'] %}Preparando el examen{% else %}Examen aprobado · revisión de cartillas y resultados{% endif %}</p>
+  </div>
+  <a class="btn" href="{{ url_for(siguiente[0], examen=contexto_examen.id_examen) }}">{{ siguiente[1] }}</a>
+</section>
+<div class="workflow-grid">
+  {% for titulo, valor, destino, descripcion in [
+    ('Preguntas por revisar', resumen.preguntas_revision, 'banco_preguntas', 'Revisa el contenido enviado para esta área.'),
+    ('Cargas por resolver', resumen.cargas_pendientes, 'cartillas', 'Identifica estudiantes y resuelve errores de carga.'),
+    ('Cartillas por validar', resumen.cartillas_revision, 'lecturas', 'Comprueba las respuestas observadas en la cartilla.'),
+    ('Resultados por revisar', resumen.calculos_revision, 'resultados_coordinador', 'Consulta el detalle antes de confirmar la revisión.')
+  ] %}
+  <article class="card"><h2>{{ titulo }}</h2><strong class="workflow-value">{{ valor }}</strong><p>{{ descripcion }}</p><a class="btn light" href="{{ url_for(destino, examen=contexto_examen.id_examen) }}">Abrir {{ titulo|lower }}</a></article>
+  {% endfor %}
+</div>
+<section class="card"><h2>Seguimiento de {{ contexto_examen.area }}</h2>
+  <p>{{ resumen.versiones }} versiones activas · {{ resumen.cartillas }} cartillas vigentes · {{ resumen.resultados }} resultados calculados · {{ resumen.por_publicar }} resultados revisados por publicar.</p>
+  <p>La publicación se realiza después de resolver las cargas pendientes y revisar los resultados de esta área.</p>
+  <a class="btn light" href="{{ url_for('reportes', examen=contexto_examen.id_examen) }}">Consultar reportes</a>
+</section>
+{% endblock %}

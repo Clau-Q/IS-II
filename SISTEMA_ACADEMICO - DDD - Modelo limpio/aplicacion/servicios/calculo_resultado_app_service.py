@@ -1,18 +1,11 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+"""Coordina el cálculo inicial de los resultados de un examen."""
+
 
 class CalculoResultadoAppService:
-    def __init__(self):
-        pass
+    def __init__(self, repositorio):
+        self.repositorio = repositorio
 
-    def calcular_resultados(self, examen_id, conjunto_id):
-        pass
-
-    def consultar_calculos(self, examen_id):
-        pass
-
-    def revisar_calculo(self, calculo_id):
-        pass
-
-    def recalificar(self, examen_id, causa):
-        pass
+    def calcular_resultados(self, examen_id, usuario_id):
+        if not examen_id:
+            raise ValueError('Selecciona un examen.')
+        return self.repositorio.calcular(examen_id, usuario_id)

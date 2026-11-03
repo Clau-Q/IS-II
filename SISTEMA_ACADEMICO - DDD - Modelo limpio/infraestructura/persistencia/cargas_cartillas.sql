@@ -1,0 +1,26 @@
+-- Base de desarrollo: ejecutar una vez después de nueva_base_de_datos.sql.
+CREATE TABLE IF NOT EXISTS cargas_omr (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ examen_id INT NOT NULL,
+ usuario_id INT NOT NULL,
+ operacion_id CHAR(36) NOT NULL,
+ nombre_archivo VARCHAR(255) NOT NULL,
+ pagina INT NOT NULL,
+ huella CHAR(64) NOT NULL,
+ ruta_imagen VARCHAR(255) NOT NULL,
+ ruta_original VARCHAR(255) NOT NULL,
+ estado ENUM('PENDIENTE','REVISAR','ERROR','DESCARTADA','REGISTRADA') NOT NULL DEFAULT 'PENDIENTE',
+ lectura_json JSON NULL,
+ error_texto TEXT NULL,
+ motivo_descarte TEXT NULL,
+ estudiante_id INT NULL,
+ version_id INT NULL,
+ cartilla_id INT NULL,
+ creada_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ UNIQUE KEY uq_carga_operacion_pagina (operacion_id, nombre_archivo, pagina),
+ FOREIGN KEY (examen_id) REFERENCES examenes(id_examen),
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id_usuario),
+ FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id_estudiante),
+ FOREIGN KEY (cartilla_id) REFERENCES cartillas(id_cartilla),
+ FOREIGN KEY (version_id, examen_id) REFERENCES versiones_examen(id_version, id_examen)
+) ENGINE=InnoDB;

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from dominio.organizacion_academica.i_estudiante_repositorio import IEstudianteRepositorio
+from dominio.organizacion_academica.asignacion_academica import AsignacionAcademica
 from sqlalchemy import text
 
 
@@ -22,6 +23,31 @@ class EstudianteORMRepositorio(IEstudianteRepositorio):
     def actualizar(self, id, datos):
         with self.session.begin() as conexion:
             return conexion.execute(text("UPDATE estudiantes SET codigo_estudiante=:codigo, nombres=:nombres, apellidos=:apellidos, dni=:dni, email=:email, telefono=:telefono WHERE id_estudiante=:id"), {**datos, "id": id}).rowcount
+
+    def consultar_asignaciones(self, id):
+        with self.session.connect() as c:
+            areas = c.execute(text("SELECT h.fecha_inicio,h.fecha_fin,a.nombre FROM estudiante_area_historial h JOIN areas a ON a.id_area=h.id_area WHERE h.id_estudiante=:id ORDER BY h.fecha_inicio DESC"), {"id": id}).mappings().all()
+            grupos = c.execute(text("SELECT h.fecha_inicio,h.fecha_fin,g.nombre FROM estudiante_grupo_historial h JOIN grupos_academicos g ON g.id_grupo=h.id_grupo WHERE h.id_estudiante=:id ORDER BY h.fecha_inicio DESC"), {"id": id}).mappings().all()
+            opciones_areas = c.execute(text("SELECT id_area AS id,nombre FROM areas WHERE estado='ACTIVO' ORDER BY nombre")).mappings().all()
+            opciones_grupos = c.execute(text("SELECT g.id_grupo AS id,CONCAT(g.nombre,' · ',c.nombre) AS nombre FROM grupos_academicos g JOIN ciclos_preparacion c ON c.id_ciclo=g.id_ciclo WHERE g.estado='ACTIVO' AND c.estado='ACTIVO' ORDER BY g.nombre")).mappings().all()
+            return areas, grupos, opciones_areas, opciones_grupos
+
+    def cambiar_asignacion(self, id, grupo, area, fecha):
+        with self.session.begin() as c:
+            estudiante = c.execute(text("SELECT estado FROM estudiantes WHERE id_estudiante=:id FOR UPDATE"), {"id": id}).scalar_one_or_none()
+            if estudiante != 'ACTIVO':
+                raise ValueError('El estudiante no existe o está inactivo.')
+            if not c.execute(text("SELECT id_area FROM areas WHERE id_area=:id AND estado='ACTIVO' FOR UPDATE"), {"id": area}).scalar_one_or_none():
+                raise ValueError('El área no está activa.')
+            if not c.execute(text("SELECT g.id_grupo FROM grupos_academicos g JOIN ciclos_preparacion c ON c.id_ciclo=g.id_ciclo WHERE g.id_grupo=:id AND g.estado='ACTIVO' AND c.estado='ACTIVO' FOR UPDATE"), {"id": grupo}).scalar_one_or_none():
+                raise ValueError('El grupo o ciclo no está activo.')
+            for tabla, columna, valor in (("estudiante_area_historial", "id_area", area), ("estudiante_grupo_historial", "id_grupo", grupo)):
+                actual = c.execute(text(f"SELECT {columna} AS valor,fecha_inicio FROM {tabla} WHERE id_estudiante=:id AND fecha_fin IS NULL FOR UPDATE"), {"id": id}).mappings().first()
+                if not AsignacionAcademica.requiere_cambio(actual, valor, fecha):
+                    continue
+                if actual:
+                    c.execute(text(f"UPDATE {tabla} SET fecha_fin=:fecha WHERE id_estudiante=:id AND fecha_fin IS NULL"), {"fecha": fecha, "id": id})
+                c.execute(text(f"INSERT INTO {tabla}(id_estudiante,{columna},fecha_inicio) VALUES (:id,:valor,:fecha)"), {"id": id, "valor": valor, "fecha": fecha})
 
     def cambiar_estado(self, id, estado):
         with self.session.begin() as conexion:

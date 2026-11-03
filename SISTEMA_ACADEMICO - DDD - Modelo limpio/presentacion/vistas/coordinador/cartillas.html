@@ -1,0 +1,39 @@
+{% extends 'comun/base.html' %}{% block titulo %}Procesar cartillas{% endblock %}{% block contenido %}
+<div class="page-heading"><div><h1>Procesar cartillas</h1><p>Carga las imágenes o el PDF de un examen para revisar su lectura.</p></div></div>
+<article class="card">{% if not contexto_examen %}<form method="get" class="row"><label class="field">Examen<select name="examen" required><option value="">Seleccionar</option>{% for e in examenes %}<option value="{{ e.id_examen }}" {{ 'selected' if e.id_examen == examen_id }}>{{ e.nombre }} · {{ e.area }}</option>{% endfor %}</select></label><button class="btn">Consultar</button></form>{% endif %}
+{% if examen_id %}<form method="post" enctype="multipart/form-data" id="carga-masiva"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="examen" value="{{ examen_id }}"><input type="hidden" name="pagina" value="{{ pagina }}"><input type="hidden" name="estado" value="{{ estado }}"><label class="field">Imágenes JPG, PNG o PDF<input type="file" name="archivos" accept=".jpg,.jpeg,.png,.pdf" multiple></label><label class="field">O seleccionar carpeta de imágenes<input type="file" name="carpeta" webkitdirectory multiple></label><button class="btn">Cargar y leer</button><p id="progreso-carga" role="status">Puedes seleccionar muchos archivos. Mantén esta página abierta durante la carga.</p></form>{% endif %}</article>
+{% if examen_id %}<article class="card" style="margin-top:20px"><h2>Entradas del examen</h2>
+<div class="role-grid">{% for etiqueta, clave in [('En espera','PENDIENTE'),('Por identificar o revisar','REVISAR'),('Con error','ERROR'),('Registradas','REGISTRADA'),('Descartadas','DESCARTADA')] %}<article class="role-kpi"><strong>{{ resumen.get(clave, 0) }}</strong><small>{{ etiqueta }}</small></article>{% endfor %}</div>
+<form method="get" class="row"><input type="hidden" name="examen" value="{{ examen_id }}"><label class="field">Filtrar por estado<select name="estado"><option value="">Todos</option>{% for clave, etiqueta in [('PENDIENTE','En espera'),('REVISAR','Por identificar o revisar'),('ERROR','Con error'),('REGISTRADA','Registradas'),('DESCARTADA','Descartadas')] %}<option value="{{ clave }}" {{ 'selected' if estado == clave }}>{{ etiqueta }}</option>{% endfor %}</select></label><button class="btn light">Filtrar</button><a class="btn light" href="{{ url_for('lecturas', examen=examen_id) }}">Revisar lecturas</a><a class="btn light" href="{{ url_for('resultados_coordinador', examen=examen_id) }}">Ver resultados</a></form><p>Página {{ pagina }} · {% if pagina > 1 %}<a href="{{ url_for('cartillas', examen=examen_id, estado=estado, pagina=pagina-1) }}">Anterior</a>{% endif %} {% if hay_siguiente %}<a href="{{ url_for('cartillas', examen=examen_id, estado=estado, pagina=pagina+1) }}">Siguiente</a>{% endif %}</p><p>El DNI y el área se identifican desde la cartilla. Solo se solicitan los datos que falten o necesiten revisión.</p>{% for entrada in entradas %}<div class="role-note"><strong>{{ entrada.nombre_archivo }} · página {{ entrada.pagina }}</strong> <span class="badge">{{ entrada.estado }}</span><p><a class="btn light" href="{{ url_for('imagen_entrada', id=entrada.id) }}" target="_blank" rel="noopener">Ver archivo</a> <a class="btn light" href="{{ url_for('detalle_carga', id=entrada.id, examen=examen_id, pagina=pagina, estado=estado) }}">{{ 'Resolver error o reemplazar imagen' if entrada.estado == 'ERROR' else 'Ver historial y acciones' }}</a></p>{% if entrada.error_texto %}<p>{{ entrada.error_texto }}</p>{% endif %}{% if entrada.lectura and entrada.lectura.exito %}<p>DNI leído: {{ entrada.lectura.dni }} · Posiciones leídas en la cartilla: {{ entrada.lectura.respuestas|length }}</p><p>Revisión solicitada: {{ 'Sí' if entrada.lectura.resumen.requiere_revision else 'No' }}. La confianza es cualitativa.</p><details><summary>Ver respuestas detectadas</summary><table><thead><tr><th>Pregunta</th><th>Marca</th><th>Estado</th><th>Confianza</th></tr></thead><tbody>{% for respuesta in entrada.lectura.respuestas %}<tr><td>{{ respuesta.pregunta }}</td><td>{{ respuesta.respuesta or '—' }}</td><td>{{ respuesta.estado }}</td><td>{{ respuesta.confianza }}</td></tr>{% endfor %}</tbody></table></details>{% endif %}{% if entrada.estado == 'REVISAR' %}{% include 'componentes/_identificacion_entrada.html' %}{% endif %}{% if entrada.estado not in ['DESCARTADA', 'REGISTRADA'] %}<details><summary>Descartar entrada duplicada o ajena</summary><form method="post" action="{{ url_for('descartar_cartilla', id=entrada.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="examen" value="{{ examen_id }}"><input type="hidden" name="pagina" value="{{ pagina }}"><input type="hidden" name="estado" value="{{ estado }}"><label class="field">Motivo de descarte<input name="motivo" required maxlength="500"></label><button class="btn light">Descartar entrada</button></form></details>{% endif %}</div>{% else %}<p>No hay entradas para este examen.</p>{% endfor %}</article>{% endif %}
+<script>
+const formulario = document.getElementById('carga-masiva');
+if (formulario) formulario.addEventListener('submit', async (evento) => {
+  evento.preventDefault();
+  const archivos = [...formulario.elements.archivos.files, ...formulario.elements.carpeta.files];
+  if (!archivos.length) { document.getElementById('progreso-carga').textContent = 'Selecciona imágenes, un PDF o una carpeta.'; return; }
+  const progreso = document.getElementById('progreso-carga');
+  const boton = formulario.querySelector('button');
+  boton.disabled = true;
+  let creadas = 0;
+  for (let i = 0; i < archivos.length; i++) {
+    progreso.textContent = `Procesando ${i + 1} de ${archivos.length}: ${archivos[i].name}`;
+    const datos = new FormData();
+    datos.append('csrf_token', formulario.elements.csrf_token.value);
+    datos.append('examen', formulario.elements.examen.value);
+    datos.append('archivos', archivos[i]);
+    try {
+      const respuesta = await fetch(formulario.action || location.href, {method:'POST', body:datos, headers:{'X-Carga-Lote':'1'}, redirect:'error'});
+      const resultado = await respuesta.json();
+      if (!respuesta.ok) throw new Error(resultado.error || 'No se pudo procesar el archivo');
+      creadas += resultado.creadas;
+    } catch (error) {
+      progreso.textContent = `Se detuvo en ${archivos[i].name} (${i + 1} de ${archivos.length}). ${creadas} páginas registradas. ${error.message}. Puedes volver a seleccionar los archivos; los duplicados se omiten.`;
+      boton.disabled = false;
+      return;
+    }
+  }
+  progreso.textContent = `Finalizado: ${creadas} páginas nuevas. Actualizando la lista...`;
+  location.reload();
+});
+</script>
+{% endblock %}

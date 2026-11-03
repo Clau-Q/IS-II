@@ -1,7 +1,0 @@
-{% extends 'base.html' %}
-{% block titulo %}Inicio · {{ rol }}{% endblock %}
-{% block contenido %}
-<section class="welcome"><h1>Bienvenido al Sistema de Examen de Admisión</h1><p>Panel de {{ rol|lower }}</p></section>
-{% if rol == 'Coordinador' %}<div class="role-grid">{% for etiqueta, valor in [('Preguntas por revisar', pendientes.preguntas if pendientes else '—'), ('Lecturas por revisar', pendientes.lecturas if pendientes else '—'), ('Cálculos por revisar', pendientes.calculos if pendientes else '—'), ('Resultados por publicar', pendientes.publicaciones if pendientes else '—')] %}<article class="role-kpi"><strong>{{ valor }}</strong><small>{{ etiqueta }}</small></article>{% endfor %}</div>{% endif %}
-<article class="summary-card"><h2>Inicio · {{ rol }}</h2><p>Bienvenido, {{ nombre }}.</p>{% if rol == 'Coordinador' %}<p>Desde este espacio podrás gestionar la organización académica y las evaluaciones.</p>{% else %}<p>Desde este espacio podrás administrar el sistema y consultar los indicadores y reportes institucionales.</p><a class="btn" href="{{ url_for('coordinador') }}">Ir al panel del coordinador</a>{% endif %}</article>
-{% endblock %}

@@ -1,126 +1,43 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulacros — Sistema académico</title>
-<link rel="stylesheet" href="../estilos.css">
-</head>
-<body>
-<nav class="navegacion-vistas" aria-label="Navegación de vistas"><a href="../index.html">Todas las vistas</a><a href="index.html">Índice del perfil</a><a href="../coordinador/cambios_de_grupo_y_area.html">Anterior</a><a href="../coordinador/banco_de_preguntas.html">Siguiente</a></nav>
-<p class="aviso-prototipo">Prototipo de vista · Datos de ejemplo. Las acciones requieren conexión con los controladores.</p>
-<main><section id="pantalla-07" class="pantalla" aria-labelledby="titulo-07">
-      <h3 id="titulo-07">06. Simulacros</h3>
-      <div class="vista fuente-10">
-        <div class="w d formato-012">
-          <div class="bar">
-            <span>
-              Simulacros
-            </span>
-            <span>
-              Coordinador
-            </span>
-          </div>
-          <div class="p">
-            <div class="r">
-              <label>
-                Ciclo
-                <br>
-                <select class="in">
-                  <option>
-                    PRE 2026-I
-                  </option>
-                </select>
-              </label>
-              <button class="bt" type="button">
-                Crear simulacro
-              </button>
-            </div>
-            <table>
-              <tr>
-                <th>
-                  Nombre
-                </th>
-                <th>
-                  Fecha
-                </th>
-                <th>
-                  Estado
-                </th>
-                <th>
-                  Exámenes
-                </th>
-                <th>
-                  Promedio
-                </th>
-                <th>
-                  Acciones
-                </th>
-              </tr>
-              <tr>
-                <td>
-                  [Simulacro 3]
-                </td>
-                <td>
-                  [fecha]
-                </td>
-                <td>
-                  Abierto
-                </td>
-                <td>
-                  [ ] de 3 áreas
-                </td>
-                <td>
-                  [ ]
-                </td>
-                <td>
-                  <button class="bt" type="button">
-                    Ver
-                  </button>
-                  <button class="bt" type="button">
-                    Editar
-                  </button>
-                  <button class="bt" type="button">
-                    Desactivar
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [Simulacro 2]
-                </td>
-                <td>
-                  [fecha]
-                </td>
-                <td>
-                  Cerrado
-                </td>
-                <td>
-                  [ ] de 3 áreas
-                </td>
-                <td>
-                  [ ]
-                </td>
-                <td>
-                  <button class="bt" type="button">
-                    Ver
-                  </button>
-                  <button class="bt" type="button">
-                    Editar
-                  </button>
-                  <button class="bt" type="button">
-                    Desactivar
-                  </button>
-                </td>
-              </tr>
-            </table>
-            <div class="note">
-              Cada simulacro tiene como máximo un examen por área. Cada estudiante participa en una sola área del simulacro.
-            </div>
-          </div>
-        </div>
-      </div>
-      
-    </section></main>
-</body>
-</html>
+{% extends 'comun/base.html' %}
+{% block titulo %}Exámenes{% endblock %}
+{% block contenido %}
+<div class="page-heading"><div><h1>Exámenes</h1><p>Crea cada aplicación y selecciona las áreas que rendirán.</p></div></div>
+<article class="card">
+  <details><summary>Crear un nuevo examen</summary>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="accion" value="simulacro">
+    <div class="form-grid">
+      <label class="field">Nombre del examen<input name="nombre" maxlength="150" placeholder="Ej. Julio 2025, semana 1" required></label>
+      <label class="field">Ciclo<select name="ciclo" required><option value="">Seleccionar</option>{% for c in ciclos %}<option value="{{ c.id_ciclo }}">{{ c.nombre }}</option>{% endfor %}</select></label>
+      <label class="field">Fecha<input type="date" name="fecha" required></label>
+    </div>
+    <fieldset><legend>Áreas que rendirán</legend>
+      {% for a in areas %}<label><input type="checkbox" name="areas" value="{{ a.id_area }}"> {{ a.nombre }}</label> &nbsp;{% else %}<p>No hay áreas activas.</p>{% endfor %}
+    </fieldset>
+    <p>Selecciona al menos un área. Cada área tendrá su propio examen y recibirá preguntas de sus docentes.</p>
+    <button class="btn">Crear examen</button>
+  </form></details>
+</article>
+<article class="card" style="margin-top:20px"><h2>Exámenes registrados</h2>
+{% for s in simulacros %}
+  <div class="role-note"><b>{{ s.nombre }}</b> · {{ s.ciclo }} · {{ s.fecha or 'Sin fecha' }} · {{ s.estado }}
+    {% set areas_del_examen = examenes|selectattr('id_simulacro','equalto',s.id_simulacro)|list %}
+    {% if areas_del_examen %}<p><a class="btn" href="{{ url_for('espacio_examen', simulacro_id=s.id_simulacro) }}">Abrir examen</a></p>{% endif %}
+    <ul>{% for e in examenes if e.id_simulacro == s.id_simulacro %}
+      <li><a href="{{ url_for('espacio_examen', simulacro_id=s.id_simulacro, examen=e.id_examen) }}">{{ e.area }}</a> ({{ e.estado }}) · {% if e.admite_preguntas and e.estado in ['BORRADOR','CONFIGURACION'] and s.estado == 'ABIERTO' %}Recibe preguntas{% else %}Cerrado para preguntas{% endif %}
+        {% if e.estado in ['BORRADOR','CONFIGURACION'] and s.estado == 'ABIERTO' %}
+        <form method="post" style="display:inline"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="examen" value="{{ e.id_examen }}"><input type="hidden" name="accion" value="{{ 'cerrar' if e.admite_preguntas else 'habilitar' }}"><button class="btn light">{{ 'Cerrar recepción' if e.admite_preguntas else 'Habilitar recepción' }}</button></form>{% endif %}
+      </li>{% else %}<li>Sin áreas todavía</li>{% endfor %}</ul>
+    {% if s.estado == 'ABIERTO' %}
+    <details><summary>Agregar áreas a este examen</summary>
+      <form method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="accion" value="agregar_areas"><input type="hidden" name="simulacro" value="{{ s.id_simulacro }}">
+        {% set areas_existentes = examenes|selectattr('id_simulacro', 'equalto', s.id_simulacro)|map(attribute='area')|list %}
+        {% for a in areas if a.nombre not in areas_existentes %}<label><input type="checkbox" name="areas" value="{{ a.id_area }}"> {{ a.nombre }}</label> &nbsp;{% else %}<p>Todas las áreas activas ya están incluidas.</p>{% endfor %}
+        <button class="btn light">Agregar áreas</button>
+      </form>
+    </details>{% endif %}
+  </div>
+{% else %}<p>No hay exámenes registrados.</p>{% endfor %}
+</article>
+{% endblock %}

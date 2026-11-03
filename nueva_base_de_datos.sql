@@ -186,6 +186,8 @@ CREATE TABLE estudiantes (
 
     email VARCHAR(150),
 
+    carrera_interes VARCHAR(150),
+
     estado ENUM(
         'ACTIVO',
         'INACTIVO'
@@ -500,6 +502,8 @@ CREATE TABLE preguntas (
 
     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
 
+    id_examen_destino INT NULL,
+
     id_materia INT NOT NULL,
 
     id_autor_docente INT NOT NULL,
@@ -678,6 +682,8 @@ CREATE TABLE simulacros (
 CREATE TABLE examenes (
 
     id_examen INT AUTO_INCREMENT PRIMARY KEY,
+
+    admite_preguntas BOOLEAN NOT NULL DEFAULT TRUE,
 
     id_simulacro INT NOT NULL,
     id_area INT NOT NULL,
@@ -2112,10 +2118,15 @@ BEGIN
       OR NOT EXISTS (SELECT 1 FROM cartillas WHERE id_cartilla = NEW.id_cartilla AND vigente = 1 AND estado = 'VALIDADA') THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Calcular requiere cartilla vigente validada, clave y politica confirmadas';
     END IF;
-    IF EXISTS (SELECT 1 FROM respuestas_detectadas rd WHERE rd.id_procesamiento = NEW.id_procesamiento
+    -- Conservar las 90 posiciones leidas; evaluar solo las preguntas del examen.
+    IF EXISTS (SELECT 1 FROM respuestas_detectadas rd
+        INNER JOIN examen_preguntas ep ON ep.id_version_examen = NEW.id_version AND ep.numero_pregunta = rd.numero_pregunta
+        WHERE rd.id_procesamiento = NEW.id_procesamiento
         AND rd.requiere_revision = 1 AND NOT EXISTS
           (SELECT 1 FROM correcciones_manual cm WHERE cm.id_respuesta_detectada = rd.id_respuesta_detectada))
-      OR (SELECT COUNT(*) FROM respuestas_detectadas WHERE id_procesamiento = NEW.id_procesamiento)
+      OR (SELECT COUNT(*) FROM respuestas_detectadas rd
+          INNER JOIN examen_preguntas ep ON ep.id_version_examen = NEW.id_version AND ep.numero_pregunta = rd.numero_pregunta
+          WHERE rd.id_procesamiento = NEW.id_procesamiento)
         <> (SELECT COUNT(*) FROM examen_preguntas WHERE id_version_examen = NEW.id_version)
       OR NOT EXISTS (SELECT 1 FROM procesamiento_cartilla WHERE id_procesamiento = NEW.id_procesamiento AND resultado = 'EXITOSO') THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La lectura debe estar completa y todas las dudas resueltas';
@@ -2545,3 +2556,43 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+-- Entradas de carga OMR; las lecturas se conservan antes de registrar cartillas.
+CREATE TABLE IF NOT EXISTS cargas_omr (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ examen_id INT NOT NULL,
+ usuario_id INT NOT NULL,
+ operacion_id CHAR(36) NOT NULL,
+ nombre_archivo VARCHAR(255) NOT NULL,
+ pagina INT NOT NULL,
+ huella CHAR(64) NOT NULL,
+ ruta_imagen VARCHAR(255) NOT NULL,
+ ruta_original VARCHAR(255) NOT NULL,
+ estado ENUM('PENDIENTE','REVISAR','ERROR','DESCARTADA','REGISTRADA') NOT NULL DEFAULT 'PENDIENTE',
+ lectura_json JSON NULL,
+ error_texto TEXT NULL,
+ motivo_descarte TEXT NULL,
+ estudiante_id INT NULL,
+ version_id INT NULL,
+ cartilla_id INT NULL,
+ creada_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ UNIQUE KEY uq_carga_operacion_pagina (operacion_id, nombre_archivo, pagina),
+ FOREIGN KEY (examen_id) REFERENCES examenes(id_examen),
+ FOREIGN KEY (usuario_id) REFERENCES usuarios(id_usuario),
+ FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id_estudiante),
+ FOREIGN KEY (cartilla_id) REFERENCES cartillas(id_cartilla),
+ FOREIGN KEY (version_id, examen_id) REFERENCES versiones_examen(id_version, id_examen)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS historial_cargas_omr (
+ id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ carga_id BIGINT NOT NULL,
+ accion ENUM('REINTENTO','REEMPLAZO') NOT NULL,
+ usuario_id INT NOT NULL,
+ motivo TEXT NOT NULL,
+ datos_anteriores JSON NOT NULL,
+ creada_en TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY(carga_id) REFERENCES cargas_omr(id),
+ FOREIGN KEY(usuario_id) REFERENCES usuarios(id_usuario),
+ INDEX idx_historial_carga(carga_id,id)
+) ENGINE=InnoDB;

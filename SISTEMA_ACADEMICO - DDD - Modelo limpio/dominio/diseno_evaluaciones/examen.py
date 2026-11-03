@@ -1,33 +1,25 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+"""Reglas de transición de la estructura de un examen."""
+
 
 class Examen:
-    def __init__(self):
-        self.id = None
-        self.simulacro_id = None
-        self.area_id = None
-        self.fecha_aplicacion = None
-        self.puntaje_maximo = None
-        self.estado = None
-        self.conjunto_calificacion_activo_id_opcional = None
+    @staticmethod
+    def validar_configuracion(estado, tiene_versiones):
+        if estado not in ('BORRADOR', 'CONFIGURACION'):
+            raise ValueError('El examen no está disponible para configurar.')
+        if tiene_versiones:
+            raise ValueError('El examen ya tiene versiones; no se reemplazará su configuración.')
 
-    def configurar_distribucion(self):
-        pass
+    @staticmethod
+    def validar_revision_clave(estado, tiene_resultados):
+        if estado not in ('APROBADO', 'APLICADO', 'CERRADO'):
+            raise ValueError('La versión no pertenece a un examen aprobado.')
+        if tiene_resultados:
+            raise ValueError('Ya hay resultados vigentes. La corrección de clave requiere recalificación integral.')
 
-    def generar_cuadernillo_unico(self):
-        pass
-
-    def aprobar_estructura(self):
-        pass
-
-    def confirmar_conjunto(self, clave_id, politica_id, responsable_id):
-        pass
-
-    def validar_items_y_versiones(self):
-        pass
-
-    def validar_estructura_para_aprobar(self):
-        pass
-
-    def retirar(self, motivo, responsable_id):
-        pass
+    @staticmethod
+    def ordenar_versiones(ids, codigo):
+        if codigo == 'A':
+            return list(ids)
+        if codigo == 'B':
+            return list(reversed(ids))
+        raise ValueError('Código de versión no válido.')

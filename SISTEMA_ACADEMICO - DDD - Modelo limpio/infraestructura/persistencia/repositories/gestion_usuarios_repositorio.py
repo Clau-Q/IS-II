@@ -1,4 +1,5 @@
 from sqlalchemy import text
+from dominio.identidad_acceso.autorizacion import Autorizacion
 
 
 class GestionUsuariosRepositorio:
@@ -27,6 +28,23 @@ class GestionUsuariosRepositorio:
             cuenta = c.execute(text("SELECT u.username, EXISTS(SELECT 1 FROM usuario_roles ur JOIN roles r ON r.id_rol=ur.id_rol WHERE ur.id_usuario=u.id_usuario AND r.nombre='DIRECTOR') AS es_director FROM usuarios u WHERE u.id_usuario=:id FOR UPDATE"), {"id": id_usuario}).mappings().first()
             if not cuenta:
                 raise ValueError("La cuenta no existe.")
-            if cuenta["es_director"] and not director:
-                raise PermissionError("Solo un director puede modificar cuentas de director.")
+            Autorizacion.validar_modificacion_cuenta(cuenta["es_director"], director)
             c.execute(text("UPDATE usuarios SET estado=:estado WHERE id_usuario=:id"), {"id": id_usuario, "estado": estado})
+
+    def cambiar_roles(self, id_usuario, roles, director, actor):
+        with self.motor.begin() as c:
+            cuenta = c.execute(text("SELECT id_usuario,EXISTS(SELECT 1 FROM usuario_roles ur JOIN roles r ON r.id_rol=ur.id_rol WHERE ur.id_usuario=usuarios.id_usuario AND r.nombre='DIRECTOR') AS es_director FROM usuarios WHERE id_usuario=:id FOR UPDATE"), {'id': id_usuario}).mappings().first()
+            if not cuenta:
+                raise ValueError('La cuenta no existe.')
+            Autorizacion.validar_modificacion_cuenta(cuenta['es_director'], director)
+            if id_usuario == actor:
+                raise ValueError('No puedes cambiar los roles de tu propia cuenta.')
+            vinculado = c.execute(text('SELECT COUNT(*) FROM estudiantes WHERE id_usuario=:id'), {'id': id_usuario}).scalar_one()
+            if vinculado and roles != ['ESTUDIANTE']:
+                raise ValueError('Esta cuenta está vinculada a un estudiante y debe conservar su rol.')
+            c.execute(text('DELETE FROM usuario_roles WHERE id_usuario=:id'), {'id': id_usuario})
+            for rol in roles:
+                c.execute(text('INSERT INTO usuario_roles(id_usuario,id_rol) SELECT :id,id_rol FROM roles WHERE nombre=:rol'), {'id': id_usuario,'rol': rol})
+            for rol, tabla in (('DOCENTE','docentes'), ('COORDINADOR','coordinadores'), ('DIRECTOR','directores')):
+                if rol in roles:
+                    c.execute(text(f'INSERT INTO {tabla}(id_usuario) SELECT :id WHERE NOT EXISTS (SELECT 1 FROM {tabla} WHERE id_usuario=:id)'), {'id': id_usuario})

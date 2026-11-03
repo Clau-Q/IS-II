@@ -1,0 +1,23 @@
+{% if contexto_examen %}
+<section class="exam-context" aria-label="Examen seleccionado">
+  <div class="exam-context-heading">
+    <div><a href="{{ url_for('simulacros') }}">Todos los exámenes</a><h2>{{ contexto_examen.nombre }}</h2>
+      <p>{{ contexto_examen.fecha or 'Sin fecha' }} · {{ contexto_examen.ciclo }}</p></div>
+    <span class="status-label">{{ contexto_examen.area }}</span>
+  </div>
+  <nav class="exam-tabs" aria-label="Áreas del examen">
+    {% for a in contexto_examen.areas %}
+    {% if request.endpoint == 'espacio_examen' %}{% set enlace = url_for('espacio_examen', simulacro_id=contexto_examen.id_simulacro, examen=a.id_examen) %}
+    {% else %}{% set enlace = url_for(etapa_examen|default(request.endpoint), examen=a.id_examen) %}{% endif %}
+    <a href="{{ enlace }}" class="{{ 'selected' if a.id_examen == contexto_examen.id_examen }}" {% if a.id_examen == contexto_examen.id_examen %}aria-current="true"{% endif %}>{{ a.area }}</a>
+    {% endfor %}
+  </nav>
+  <nav class="exam-tabs stages" aria-label="Etapas del examen">
+    {% for destino, etiqueta in etapas_examen.items() %}
+    {% if destino == 'espacio_examen' %}{% set enlace = url_for(destino, simulacro_id=contexto_examen.id_simulacro, examen=contexto_examen.id_examen) %}
+    {% else %}{% set enlace = url_for(destino, examen=contexto_examen.id_examen) %}{% endif %}
+    <a href="{{ enlace }}" class="{{ 'selected' if (etapa_examen|default(request.endpoint)) == destino }}" {% if (etapa_examen|default(request.endpoint)) == destino %}aria-current="page"{% endif %}>{{ etiqueta }}</a>
+    {% endfor %}
+  </nav>
+</section>
+{% endif %}

@@ -1,0 +1,17 @@
+{% extends 'comun/base.html' %}{% block titulo %}Revisar carga{% endblock %}
+{% block contenido %}
+<div class="page-heading"><div><h1>Revisar carga</h1><p>{{ entrada.nombre_archivo }} · Página {{ entrada.pagina }} · {{ entrada.estado }}</p></div>
+<a class="btn light" href="{{ url_for('cartillas', examen=entrada.examen_id, pagina=request.args.get('pagina',1), estado=request.args.get('estado','')) }}">Volver a las cargas</a></div>
+<section class="card"><h2>Archivo recibido</h2><a class="btn light" href="{{ url_for('imagen_entrada',id=entrada.id) }}" target="_blank" rel="noopener">Ver archivo</a>
+{% if entrada.error_texto %}<p role="status">{{ entrada.error_texto }}</p>{% endif %}
+{% if entrada.estado in ['ERROR','REVISAR'] and not entrada.cartilla_id %}
+<details><summary>Reintentar lectura de la misma imagen</summary><form method="post" action="{{ url_for('resolver_carga',id=entrada.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="accion" value="reintentar"><input type="hidden" name="pagina" value="{{ request.args.get('pagina',1) }}"><input type="hidden" name="estado" value="{{ request.args.get('estado','') }}">
+<label class="field">Motivo del reintento<input name="motivo" required maxlength="500"></label><button class="btn">Reintentar lectura</button></form></details>
+<details><summary>Reemplazar por una imagen legible</summary><form method="post" enctype="multipart/form-data" action="{{ url_for('resolver_carga',id=entrada.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="accion" value="reemplazar"><input type="hidden" name="pagina" value="{{ request.args.get('pagina',1) }}"><input type="hidden" name="estado" value="{{ request.args.get('estado','') }}">
+<label class="field">Imagen PNG o JPG<input type="file" name="imagen" accept="image/png,image/jpeg" required></label>
+<label class="field">Motivo del reemplazo<input name="motivo" required maxlength="500"></label><p>El archivo anterior se conserva en el historial. Después de leer la nueva imagen deberás confirmar su identificación.</p><button class="btn">Guardar reemplazo y leer</button></form></details>
+{% else %}<p>Esta entrada no permite reintentos ni reemplazos. Las cartillas registradas requieren el proceso de rectificación o reemplazo académico.</p>{% endif %}</section>
+<section class="card" style="margin-top:20px"><h2>Historial de la entrada</h2><div class="table-wrap"><table><tr><th>Fecha</th><th>Acción</th><th>Responsable</th><th>Motivo</th><th>Evidencia</th></tr>{% for h in historial %}<tr><td>{{ h.creada_en }}</td><td>{{ h.accion }}</td><td>{{ h.usuario }}</td><td>{{ h.motivo }}</td><td><a href="{{ url_for('imagen_entrada',id=entrada.id,historial=h.id) }}" target="_blank" rel="noopener">Ver archivo anterior</a></td></tr>{% else %}<tr><td colspan="5">No se han realizado reintentos ni reemplazos.</td></tr>{% endfor %}</table></div></section>
+{% endblock %}

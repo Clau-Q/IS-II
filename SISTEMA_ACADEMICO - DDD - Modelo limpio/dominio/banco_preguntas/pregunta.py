@@ -2,6 +2,14 @@
 # -*- coding: utf-8 -*-
 
 class Pregunta:
+    @staticmethod
+    def validar_revision(accion, observacion):
+        if accion not in ('aprobar', 'devolver'):
+            raise ValueError('Acción de revisión no válida.')
+        observacion = (observacion or '').strip()
+        if accion == 'devolver' and not observacion:
+            raise ValueError('Indica una observación para devolver la pregunta.')
+        return accion == 'aprobar', observacion
     def __init__(self):
         self.id = None
         self.autor_id = None

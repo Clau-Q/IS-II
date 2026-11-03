@@ -6,6 +6,7 @@ __pycache__/
 .env
 .env.*
 mysql_clave.local
+datos_privados/
 
 # Bases y archivos generados durante las pruebas
 *.db

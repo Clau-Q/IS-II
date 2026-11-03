@@ -1,0 +1,3 @@
+{% if not contexto_examen %}
+<form method="get" class="row"><label class="field">Examen y área<select name="examen" required><option value="">Seleccionar</option>{% for e in examenes %}<option value="{{ e.id_examen }}" {{ 'selected' if e.id_examen == examen }}>{{ e.nombre }} · {{ e.area }}</option>{% endfor %}</select></label><button class="btn">Consultar</button></form>
+{% endif %}

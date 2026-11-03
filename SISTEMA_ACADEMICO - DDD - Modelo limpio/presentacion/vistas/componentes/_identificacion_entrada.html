@@ -1,0 +1,35 @@
+{% set identificacion = entrada.identificacion %}
+{% if identificacion.bloqueo %}
+<p class="mensaje-error" role="status">{{ identificacion.bloqueo }}</p>
+{% else %}
+{% if identificacion.estudiante %}
+<p><strong>Estudiante identificado:</strong> {{ identificacion.estudiante.nombres }} {{ identificacion.estudiante.apellidos }} · DNI {{ identificacion.estudiante.dni }}</p>
+{% endif %}
+{% if identificacion.area_detectada %}<p><strong>Área detectada:</strong> {{ identificacion.area_detectada }}</p>
+{% else %}<p>No se pudo confirmar el área en la imagen. Comprueba que corresponde a {{ area_actual }} antes de guardar la identificación.</p>{% endif %}
+{% if identificacion.version %}<p><strong>Versión:</strong> {{ identificacion.version.codigo_version }}{% if entrada.version_id %} · Guardada en la entrada{% elif versiones|length == 1 %} · Única versión activa{% else %} · Detectada en la cartilla{% endif %}</p>{% endif %}
+
+{% if (entrada.estudiante_id and entrada.version_id) or identificacion.completa %}
+<p>Identificación completa. Las respuestas todavía requieren revisión antes de calificar.</p>
+<form method="post" action="{{ url_for('registrar_cartilla', id=entrada.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="examen" value="{{ examen_id }}"><input type="hidden" name="pagina" value="{{ pagina }}"><input type="hidden" name="estado" value="{{ estado }}">
+<label class="field">Motivo (obligatorio si reemplaza otra cartilla)<input name="motivo" maxlength="500"></label>
+<button class="btn">Registrar cartilla</button>
+</form>
+{% else %}
+<form method="post" action="{{ url_for('identificar_cartilla', id=entrada.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="examen" value="{{ examen_id }}"><input type="hidden" name="pagina" value="{{ pagina }}"><input type="hidden" name="estado" value="{{ estado }}">
+{% if identificacion.estudiante %}<input type="hidden" name="estudiante" value="{{ identificacion.estudiante.id_estudiante }}">
+{% else %}
+<p>El DNI no permite identificar a un único estudiante activo. Revisa la imagen o selecciona el registro correcto.</p>
+<label class="field">Estudiante<select name="estudiante" required><option value="">Seleccionar</option>{% for estudiante in estudiantes %}<option value="{{ estudiante.id_estudiante }}">{{ estudiante.codigo_estudiante }} · {{ estudiante.nombres }} {{ estudiante.apellidos }}{% if estudiante.dni %} · DNI {{ estudiante.dni }}{% endif %}</option>{% endfor %}</select></label>
+{% endif %}
+{% if identificacion.version %}<input type="hidden" name="version" value="{{ identificacion.version.id_version }}">
+{% else %}
+<label class="field">Versión utilizada<select name="version" required><option value="">Seleccionar</option>{% for version in versiones %}<option value="{{ version.id_version }}">{{ version.codigo_version }}</option>{% endfor %}</select></label>
+{% if not versiones %}<p>Este examen no tiene una versión activa. Configura el examen antes de registrar la cartilla.</p>{% endif %}
+{% endif %}
+<button class="btn" {% if not versiones %}disabled{% endif %}>{{ 'Guardar versión' if identificacion.estudiante and not identificacion.version else 'Confirmar identificación' }}</button>
+</form>
+{% endif %}
+{% endif %}

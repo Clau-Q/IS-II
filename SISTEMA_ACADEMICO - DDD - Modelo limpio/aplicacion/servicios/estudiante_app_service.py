@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from dominio.organizacion_academica.estudiante import Estudiante
 
 class EstudianteAppService:
     def __init__(self, repositorio=None):
@@ -9,12 +10,7 @@ class EstudianteAppService:
         self.repositorio.guardar(self.validar(datos))
 
     def validar(self, datos):
-        valores = {campo: datos.get(campo, "").strip() for campo in ("codigo", "nombres", "apellidos", "dni", "email", "telefono")}
-        if not all(valores[campo] for campo in ("codigo", "nombres", "apellidos")):
-            raise ValueError("Código, nombres y apellidos son obligatorios.")
-        for campo in ("dni", "email", "telefono"):
-            valores[campo] = valores[campo] or None
-        return valores
+        return Estudiante.validar_datos(datos)
 
     def listar(self, busqueda=""):
         return self.repositorio.listar({"busqueda": busqueda.strip()})
@@ -23,12 +19,17 @@ class EstudianteAppService:
         return self.repositorio.actualizar(id, self.validar(datos))
 
     def cambiar_estado(self, id, estado):
-        if estado not in ("ACTIVO", "INACTIVO"):
-            raise ValueError("Estado no válido.")
-        return self.repositorio.cambiar_estado(id, estado)
+        return self.repositorio.cambiar_estado(id, Estudiante.validar_estado(estado))
+
+    def buscar_por_id(self, id):
+        return self.repositorio.buscar_por_id(id)
 
     def cambiar_asignacion(self, id, grupo, area, fecha):
-        pass
+        fecha, area, grupo = Estudiante.validar_cambio(fecha, area, grupo)
+        self.repositorio.cambiar_asignacion(id, grupo, area, fecha)
+
+    def consultar_asignaciones(self, id):
+        return self.repositorio.consultar_asignaciones(id)
 
     def vincular_cuenta(self, id, cuenta_id):
         return self.repositorio.vincular_cuenta(id, cuenta_id.strip())

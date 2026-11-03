@@ -1,0 +1,21 @@
+{% extends 'comun/base.html' %}{% block titulo %}Banco de preguntas{% endblock %}
+{% block contenido %}
+<div class="page-heading"><div><h1>{{ 'Preguntas del examen' if contexto_examen else 'Banco de preguntas' }}</h1><p>Consulta el contenido enviado por los docentes y revisa las versiones pendientes.</p></div></div>
+<article class="card"><form method="get" class="row">
+{% if contexto_examen %}<input type="hidden" name="examen" value="{{ contexto_examen.id_examen }}">{% endif %}
+<label class="field">Estado<select name="estado"><option value="">Todos</option>{% for estado in ['BORRADOR','REVISION','APROBADA','INACTIVA'] %}<option value="{{ estado }}" {{ 'selected' if filtros.get('estado') == estado }}>{{ estado }}</option>{% endfor %}</select></label>
+<label class="field">Eje temático<select name="eje"><option value="">Todos</option>{% for e in ejes %}<option value="{{ e.id_eje }}" {{ 'selected' if filtros.get('eje') == e.id_eje|string }}>{{ e.nombre }}</option>{% endfor %}</select></label>
+<label class="field">Materia<select name="materia"><option value="">Todas</option>{% for m in materias %}<option value="{{ m.id_materia }}" {{ 'selected' if filtros.get('materia') == m.id_materia|string }}>{{ m.nombre }}</option>{% endfor %}</select></label>
+{% if not contexto_examen %}<label class="field">Área<select name="area"><option value="">Todas</option>{% for a in areas %}<option value="{{ a.id_area }}" {{ 'selected' if filtros.get('area') == a.id_area|string }}>{{ a.nombre }}</option>{% endfor %}</select></label>{% endif %}
+<button class="btn light">Filtrar</button></form></article>
+{% for p in preguntas %}<article class="card" style="margin-top:15px"><h2>{{ p.materia }} · {{ p.estado }}</h2>
+<p>{{ p.enunciado }}</p><ul>{% for alternativa in p.alternativas %}<li>{{ alternativa.letra }}. {{ alternativa.contenido or '(sin texto)' }}</li>{% else %}<li>Sin alternativas registradas.</li>{% endfor %}</ul>
+{% if p.imagenes %}<details><summary>Imágenes adjuntas</summary><ul>{% for img in p.imagenes %}<li><a href="{{ url_for('coordinador_imagen_pregunta', id=img.id_imagen) }}" target="_blank" rel="noopener">{{ 'Enunciado' if img.ubicacion == 'ENUNCIADO' else 'Alternativa ' ~ img.letra }}</a></li>{% endfor %}</ul></details>{% endif %}
+<p>Autor: {{ p.autor }} · Respuesta correcta: {{ p.respuesta_correcta }}</p>
+{% if p.estado == 'REVISION' %}<form method="post" action="{{ url_for('revisar_pregunta', id=p.id_pregunta) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="version" value="{{ p.id_version }}">
+{% for clave in ['estado','examen','materia','area','eje'] %}<input type="hidden" name="{{ clave }}" value="{{ filtros.get(clave, '') }}">{% endfor %}
+<label class="field">Observación para devolver la pregunta<textarea name="observacion" rows="2"></textarea></label>
+<div class="row"><button class="btn" name="accion" value="aprobar">Aprobar pregunta</button><button class="btn light" name="accion" value="devolver">Devolver con observación</button></div></form>{% endif %}</article>
+{% else %}<article class="card" style="margin-top:15px">No hay preguntas para los filtros seleccionados.</article>{% endfor %}
+{% endblock %}

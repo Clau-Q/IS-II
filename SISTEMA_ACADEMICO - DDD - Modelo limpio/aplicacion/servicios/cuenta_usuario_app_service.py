@@ -7,10 +7,10 @@ class CuentaUsuarioAppService:
         self.protector = protector
 
     def registrar_cuenta(self, datos):
-        pass
+        raise NotImplementedError('El registro de cuentas se realiza mediante GestionUsuariosAppService.')
 
     def asignar_roles(self, cuenta_id, roles):
-        pass
+        raise NotImplementedError('La modificación de roles existentes aún no está implementada.')
 
     def iniciar_sesion(self, usuario, credencial):
         cuenta = self.repositorio.buscar_por_nombre(usuario.strip())
@@ -18,8 +18,12 @@ class CuentaUsuarioAppService:
             return None
         return cuenta
 
+    def consultar_cuenta_activa(self, usuario):
+        cuenta = self.repositorio.buscar_por_nombre(usuario)
+        return cuenta if cuenta and cuenta['activa'] else None
+
     def recuperar_acceso(self, solicitud):
-        pass
+        raise NotImplementedError('La recuperación de acceso está pendiente de definir.')
 
     def registrar_con_clave(self, datos, contrasena):
-        pass
+        raise NotImplementedError('El registro de cuentas se realiza mediante GestionUsuariosAppService.')

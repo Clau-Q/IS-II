@@ -1,10 +1,13 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+"""Reglas para conservar los periodos de una asignación."""
+
 
 class AsignacionAcademica:
-    def __init__(self):
-        self.id = None
-        self.grupo_id_opcional = None
-        self.area_id_opcional = None
-        self.inicio = None
-        self.fin_opcional = None
+    @staticmethod
+    def requiere_cambio(actual, identificador, fecha):
+        if not actual:
+            return True
+        if actual['valor'] == identificador:
+            return False
+        if fecha <= actual['fecha_inicio']:
+            raise ValueError('La fecha del cambio debe ser posterior al inicio de la asignación actual.')
+        return True

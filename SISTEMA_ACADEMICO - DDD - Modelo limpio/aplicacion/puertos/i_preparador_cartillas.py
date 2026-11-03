@@ -1,0 +1,9 @@
+from typing import Protocol
+
+
+class IPreparadorCartillas(Protocol):
+    MAX_BYTES: int
+
+    def paginas(self, nombre, contenido): ...
+    def guardar_pagina(self, contenido): ...
+    def descartar_archivo_temporal(self, ruta): ...
