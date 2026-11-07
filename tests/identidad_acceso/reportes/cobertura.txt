@@ -1,0 +1,10 @@
+Name                                                                                            Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------------------------------
+Sistema_Academico\aplicacion\servicios\cuenta_usuario_app_service.py                               20      4      2      0    82%   10, 13, 26, 29
+Sistema_Academico\aplicacion\servicios\gestion_usuarios_app_service.py                             23      2      4      1    89%   22, 25
+Sistema_Academico\dominio\identidad_acceso\autorizacion.py                                         22      3      8      0    90%   24, 27, 30
+Sistema_Academico\dominio\identidad_acceso\cuenta_usuario.py                                       15      2      0      0    87%   13, 22
+Sistema_Academico\infraestructura\persistencia\repositories\cuenta_usuario_orm_repositorio.py      18      3      2      0    85%   11, 14, 17
+Sistema_Academico\infraestructura\persistencia\repositories\gestion_usuarios_repositorio.py        44     12     22      5    62%   19->21, 22, 24, 38, 42-50
+-------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                             142     26     38      6    78%

@@ -1,0 +1,29 @@
+# Entornos y archivos generados de Python
+.venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Configuración local
+.env
+.env.*
+!.env.example
+Sistema_Academico/mysql_clave.local
+
+# Datos de ejecución y cobertura
+.coverage
+.coverage.*
+**/reportes/html/
+**/reportes/ejecucion.html
+*.log
+
+# Informes de entrega y salidas locales
+/entrega/
+/output/
+/tmp/
+~$*.docx
+~$*.xlsx
+Thumbs.db
+.DS_Store

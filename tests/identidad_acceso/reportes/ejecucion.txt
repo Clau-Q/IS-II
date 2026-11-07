@@ -1,0 +1,37 @@
+test_deniega_acceso_sin_rol_requerido (test_autorizacion.TestAccesoPorRol.test_deniega_acceso_sin_rol_requerido) ... ok
+test_director_puede_acceder_como_coordinador (test_autorizacion.TestAccesoPorRol.test_director_puede_acceder_como_coordinador) ... ok
+test_permite_acceso_con_rol_requerido (test_autorizacion.TestAccesoPorRol.test_permite_acceso_con_rol_requerido) ... ok
+test_no_director_no_puede_modificar_cuenta_de_director (test_autorizacion.TestModificacionCuenta.test_no_director_no_puede_modificar_cuenta_de_director) ... ok
+test_acepta_rol_docente (test_autorizacion.TestValidacionRoles.test_acepta_rol_docente) ... ok
+test_rechaza_estudiante_combinado_con_docente (test_autorizacion.TestValidacionRoles.test_rechaza_estudiante_combinado_con_docente) ... ok
+test_rechaza_rol_desconocido (test_autorizacion.TestValidacionRoles.test_rechaza_rol_desconocido) ... ok
+test_rechaza_roles_duplicados (test_autorizacion.TestValidacionRoles.test_rechaza_roles_duplicados) ... ok
+test_rechaza_roles_vacios (test_autorizacion.TestValidacionRoles.test_rechaza_roles_vacios) ... ok
+test_solo_director_puede_asignar_rol_director (test_autorizacion.TestValidacionRoles.test_solo_director_puede_asignar_rol_director) ... ok
+test_activar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_activar_cuenta) ... ok
+test_desactivar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_desactivar_cuenta) ... ok
+test_crear_y_autenticar_cuenta_persistida (test_integracion.TestIntegracionIdentidadAcceso.test_crear_y_autenticar_cuenta_persistida) ... ok
+test_usuario_duplicado_no_deja_roles_ni_perfiles_adicionales (test_integracion.TestIntegracionIdentidadAcceso.test_usuario_duplicado_no_deja_roles_ni_perfiles_adicionales) ... ok
+test_validacion_invalida_deja_la_base_sin_usuarios (test_integracion.TestIntegracionIdentidadAcceso.test_validacion_invalida_deja_la_base_sin_usuarios) ... ok
+test_busqueda_devuelve_datos_y_roles_de_la_cuenta (test_repositorios.TestCuentaUsuarioRepositorio.test_busqueda_devuelve_datos_y_roles_de_la_cuenta) ... ok
+test_cuenta_inactiva_se_mapea_como_inactiva (test_repositorios.TestCuentaUsuarioRepositorio.test_cuenta_inactiva_se_mapea_como_inactiva) ... ok
+test_cuenta_inexistente_no_consulta_roles (test_repositorios.TestCuentaUsuarioRepositorio.test_cuenta_inexistente_no_consulta_roles) ... ok
+test_cambia_estado_de_cuenta_normal (test_repositorios.TestGestionUsuariosRepositorio.test_cambia_estado_de_cuenta_normal) ... ok
+test_estado_rechaza_cuenta_inexistente_sin_actualizar (test_repositorios.TestGestionUsuariosRepositorio.test_estado_rechaza_cuenta_inexistente_sin_actualizar) ... ok
+test_listar_devuelve_las_filas_consultadas (test_repositorios.TestGestionUsuariosRepositorio.test_listar_devuelve_las_filas_consultadas) ... ok
+test_no_permite_cambiar_roles_de_la_propia_cuenta (test_repositorios.TestGestionUsuariosRepositorio.test_no_permite_cambiar_roles_de_la_propia_cuenta) ... ok
+test_consulta_devuelve_cuenta_activa (test_servicios.TestCuentaUsuarioAppService.test_consulta_devuelve_cuenta_activa) ... ok
+test_cuenta_inactiva_no_verifica_contrasena (test_servicios.TestCuentaUsuarioAppService.test_cuenta_inactiva_no_verifica_contrasena) ... ok
+test_inicia_sesion_y_verifica_hash_con_la_credencial (test_servicios.TestCuentaUsuarioAppService.test_inicia_sesion_y_verifica_hash_con_la_credencial) ... ok
+test_rechaza_contrasena_incorrecta (test_servicios.TestCuentaUsuarioAppService.test_rechaza_contrasena_incorrecta) ... ok
+test_usuario_inexistente_no_verifica_contrasena (test_servicios.TestCuentaUsuarioAppService.test_usuario_inexistente_no_verifica_contrasena) ... ok
+test_cambiar_roles_delega_roles_y_actor (test_servicios.TestGestionUsuariosAppService.test_cambiar_roles_delega_roles_y_actor) ... ok
+test_crea_usuario_con_datos_normalizados_y_clave_protegida (test_servicios.TestGestionUsuariosAppService.test_crea_usuario_con_datos_normalizados_y_clave_protegida) ... ok
+test_estado_invalido_no_se_envia_al_repositorio (test_servicios.TestGestionUsuariosAppService.test_estado_invalido_no_se_envia_al_repositorio) ... ok
+test_rechaza_contrasena_de_siete_caracteres (test_servicios.TestGestionUsuariosAppService.test_rechaza_contrasena_de_siete_caracteres) ... ok
+test_rechaza_username_vacio_sin_persistir (test_servicios.TestGestionUsuariosAppService.test_rechaza_username_vacio_sin_persistir) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.132s
+
+OK

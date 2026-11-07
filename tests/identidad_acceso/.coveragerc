@@ -1,0 +1,17 @@
+[run]
+branch = True
+source = Sistema_Academico
+data_file = tests/identidad_acceso/reportes/.coverage
+
+[report]
+show_missing = True
+include =
+    */dominio/identidad_acceso/cuenta_usuario.py
+    */dominio/identidad_acceso/autorizacion.py
+    */infraestructura/persistencia/repositories/cuenta_usuario_orm_repositorio.py
+    */infraestructura/persistencia/repositories/gestion_usuarios_repositorio.py
+    */aplicacion/servicios/cuenta_usuario_app_service.py
+    */aplicacion/servicios/gestion_usuarios_app_service.py
+
+[html]
+directory = tests/identidad_acceso/reportes/html

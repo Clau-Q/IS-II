@@ -13,10 +13,10 @@ class CuentaUsuario:
         pass
 
     def desactivar(self):
-        pass
+        self.activa = False
 
     def activar(self):
-        pass
+        self.activa = True
 
     def cambiar_credencial(self, nuevo_hash):
         pass

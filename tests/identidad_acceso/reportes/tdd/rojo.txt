@@ -1,0 +1,25 @@
+test_activar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_activar_cuenta) ... FAIL
+test_desactivar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_desactivar_cuenta) ... FAIL
+
+======================================================================
+FAIL: test_activar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_activar_cuenta)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\INGENIERIA DE SOFWARE II\IS-II-git\tests\identidad_acceso\test_cuenta_usuario.py", line 17, in test_activar_cuenta
+    self.assertTrue(cuenta.activa)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_desactivar_cuenta (test_cuenta_usuario.TestEstadoCuentaUsuario.test_desactivar_cuenta)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\INGENIERIA DE SOFWARE II\IS-II-git\tests\identidad_acceso\test_cuenta_usuario.py", line 28, in test_desactivar_cuenta
+    self.assertFalse(cuenta.activa)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)
